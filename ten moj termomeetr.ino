@@ -76,8 +76,7 @@ void mojLcdCounter() {
 	seconds = (float)((millis() - StartTime) / 1000);
 	minutes = seconds / 60;
 	hours = minutes / 60;
-	//cout << seconds << " seconds is equivalent to " << int(hours) << " hours " << int(minutes % 60)
-	//	<< " minutes " << int(seconds % 60) << " seconds.";
+	
 	lcd.print("Time:");
 	if (hours < 10) {
 		lcd.print(0);
@@ -140,3 +139,10 @@ void zmianaJasnosciNaPrzycisku() {
 //		Serial.println(EEPROM.read(i));
 //	}
 //}
+//1023 bajty, bo wypisuje wartoœci od 0 do 255
+
+//float b = 37.78;
+//int a = (int)(roundf(b * 10));
+//cout << a;
+//
+//watchdog
