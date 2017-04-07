@@ -1,5 +1,5 @@
-C:\Users\Aerfio\AppData\Local\Temp\VMBuilds\ten\ moj\ termomeetr\uno\Debug\ten\ moj\ termomeetr.cpp.o: \
- C:\Users\Aerfio\AppData\Local\Temp\VMBuilds\ten\ moj\ termomeetr\uno\Debug\ten\ moj\ termomeetr.cpp \
+C:\Users\Aerfio\AppData\Local\Temp\VMBuilds\tenMojTermometr\uno\Debug\tenMojTermometr.cpp.o: \
+ C:\Users\Aerfio\AppData\Local\Temp\VMBuilds\tenMojTermometr\uno\Debug\tenMojTermometr.cpp \
  C:\Users\Aerfio\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.18\cores\arduino/arduino.h \
  C:\Users\Aerfio\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.18\cores\arduino/binary.h \
  C:\Users\Aerfio\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.18\cores\arduino/WCharacter.h \
