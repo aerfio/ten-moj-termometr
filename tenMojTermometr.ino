@@ -39,7 +39,8 @@ void setup() {
 	StartTime = millis();
 	//ta instrukcja musi byc tutaj zeby "wszystko sie zgadzalo"
 	lcd.begin(16, 2); //Deklaracja typu
-	EEPROMtest();
+	//wyzeruj eeprom zeby nie czytac glupot w razie wczessniejszego konca pomiarow
+	EEPROMzero();
 }
 
 
@@ -67,12 +68,7 @@ void mojLcdTemper() {
 	lcd.print((char)0);
 	lcd.print("C");
 }
-//void mojLcdJasn() {
-//	lcd.setCursor(0, 1); //Ustawienie kursora
-//	lcd.print("Jasnosc:");
-//	lcd.print(jasnosc);
-//	lcd.print("\/225");
-//}
+
 
 void mojLcdCounter() {
 	lcd.setCursor(0, 1); //Ustawienie kursora
@@ -148,13 +144,12 @@ void zapiszTempDoEEPROM() {
 			sensors.requestTemperatures(); //Pobranie temperatury czujnika
 			temperatura = sensors.getTempCByIndex(0);
 			EEPROM.put(licznikZapisan, changeTempToByte(temperatura));
-
 			licznikZapisan++;
-			Serial.print(licznikZapisan);
+			/*Serial.print(licznikZapisan);
 			Serial.print(";");
 			Serial.print(changeTempToByte(temperatura));
 			Serial.print(";");
-			Serial.println(seconds);
+			Serial.println(seconds);*/
 
 			wewLicznik = seconds;
 
@@ -165,16 +160,16 @@ void zapiszTempDoEEPROM() {
 			temperatura = sensors.getTempCByIndex(0);
 			EEPROM.put(licznikZapisan, changeTempToByte(temperatura));
 			licznikZapisan++;
-			Serial.print(licznikZapisan);
+		/*	Serial.print(licznikZapisan);
 			Serial.print(";");
 			Serial.print(changeTempToByte(temperatura));
 			Serial.print(";");
-			Serial.println(seconds);
+			Serial.println(seconds);*/
 		}
 
 		
 	}
-	else {
+	else { //zapisz czas konca pomiaru, czas poczatku musze zapisac recznie, na kartce, bo w arduino nie ma zegara, ale jest funkcja odmierzajaca uplywajacy czas (milis())
 		EEPROM.put(1021, hours);
 		EEPROM.put(1022, minutes%60);
 		EEPROM.put(1023, seconds%60);
@@ -184,12 +179,11 @@ void zapiszTempDoEEPROM() {
 
 
 
-void EEPROMtest() {
-	byte lol;
-	for (int i = 0; i < 256; i++)
+void EEPROMzero() {
+	
+	for (int i = 0; i < EEPROM.length(); i++)
 	{
-		lol = (byte)0;
-		EEPROM.update(i, lol);
+		EEPROM.update(i, (byte)0);
 	}
 }
 
