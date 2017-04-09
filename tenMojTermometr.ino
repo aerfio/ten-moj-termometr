@@ -18,7 +18,7 @@ byte stopnie[8] = {                //konfigurajca znaku stopnie
 	0b00000,
 	0b00000
 };
-int jasnosc = 20;
+int jasnosc = 200;
 bool brightLCD = false;
 unsigned long StartTime;
 
