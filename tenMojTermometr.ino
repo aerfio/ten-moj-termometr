@@ -34,13 +34,11 @@ void setup() {
 	pinMode(9, OUTPUT); //Dioda jako wyjœcie
 	pinMode(12, OUTPUT);
 	pinMode(8, INPUT_PULLUP); //Przycisk jako wejœcie
-	//eeprom
-	zeroEEPROM();
 	//czas
 	StartTime = millis();
 	//ta instrukcja musi byc tutaj zeby "wszystko sie zgadzalo"
 	lcd.begin(16, 2); //Deklaracja typu
-
+	//EEPROMtest();
 }
 
 
@@ -62,7 +60,8 @@ void loop() {
 
 
 	if (endEepromSaving == false) {
-		zapiszTempDoEEPROM();
+		//zapiszTempDoEEPROM();
+		
 		//digitalWrite(9, HIGH);
 	}
 	else {
@@ -156,56 +155,43 @@ void zmianaJasnosciNaPrzycisku() {
 void zapiszTempDoEEPROM() {
 	int temp;
 	if (licznikZapisan<509) {//ostatnie 3 miejsca w komorkach na temp i na godzine wypelniam zerami, "bo tak"
-		if (seconds % 170 == 0 ) {//24h po 60 minut po 60 sec rozdzielone na ~512 pomiarow daje 168 z hakiem, ale jezeli chce mierzyc 24h to musze tu dac cos wiecej, hence my number of choice is 170
+		if (seconds % 5 == 0 ) {//24h po 60 minut po 60 sec rozdzielone na ~512 pomiarow daje 168 z hakiem, ale jezeli chce mierzyc 24h to musze tu dac cos wiecej, hence my number of choice is 170
 			sensors.requestTemperatures(); //Pobranie temperatury czujnika
 			float temperatura = sensors.getTempCByIndex(0);
-			EEPROM.put(licznikZapisan, temperatura);
-			EEPROM.put(licznikZapisan + 512, seconds);
-			Serial.print("licznikZapisan:");
-			Serial.print(licznikZapisan);
-			Serial.print("\\temp");
-			Serial.print(temperatura);
-			Serial.print("\\czas:");
-			Serial.println(seconds);
+			EEPROM.put(licznikZapisan, changeTempToByte(temperatura));
 			licznikZapisan++;
 		}
 		
-		EEPROM.get(licznikZapisan + 512 - 1, temp);
-		/*Serial.print(temp);
-		Serial.print(":");
-		Serial.println(seconds);*/
-		if (seconds % 170 == 1 && temp!=(seconds-1)) {//to kurewstwo wyzej czasem nie lapie, dlatego trzeba sprawdzic jedna liczbe dalej
+		
+		if (seconds % 5 == 1 && XXXXX) {//to kurewstwo wyzej czasem nie lapie, dlatego trzeba sprawdzic jedna liczbe dalej
 			sensors.requestTemperatures(); //Pobranie temperatury czujnika
 			float temperatura = sensors.getTempCByIndex(0);
-			EEPROM.put(licznikZapisan, temperatura);
-			EEPROM.put(licznikZapisan + 512, seconds);
-			Serial.print("licznikZapisan:");
-			Serial.print(licznikZapisan);
-			Serial.print("\\temp");
-			Serial.print(temperatura);
-			Serial.print("\\czas:");
-			Serial.println(seconds);
+			EEPROM.put(licznikZapisan, changeTempToByte(temperatura));
 			licznikZapisan++;
 		}
 		
 	}
 	else {
-		for (int i = 509; i < 512; i++)
-		{
-			EEPROM.put(i, 0);
-			EEPROM.put(i + 512, 0);
-		}
 		endEepromSaving = true;	
 	}
 }
 
 
 
-void zeroEEPROM() {
-	for (int i = 0; i < EEPROM.length(); i++) {
-		EEPROM.write(i, 0);
+//sprawdz czy zapiszTempDoEEPROM zapisuje dobre wartosci
+//odp brzmi nie - chujowa specyfikacja i stronka arduino klamia, chuj im w oczy
+void EEPROMtest() {
+	byte lol;
+	for (int i = 0; i < 256; i++)
+	{
+		lol = (byte)i;
+		EEPROM.write(i, lol);
 	}
 }
 
+byte changeTempToByte(float temp) {
+	return ((byte)(roundf(temp * 10)-100)); //bierzemy np 37.78 -> robimy z tego 378, odejmujemy 100 i mamy bajta (-100 zeby temp zawsze sie miesila w przedziale ktory chce, chyba ze temp w pokoju przekroczu 35.5 stopni iksde)
+}
 
-//sprawdz czy zapiszTempDoEEPROM zapisuje dobre wartosci
+//endEpromSaving - change it
+//te dwa ify w tym kurewskim zapiszdoEPROMU - tez do zmiany
