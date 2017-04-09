@@ -18,15 +18,15 @@
 44	
 45	
 --&gt;46	void loop() {
-47		sensors.requestTemperatures(); //Pobranie temperatury czujnika
-48		//Serial.print("Aktualna temperatura: ");
-49		//Serial.println(sensors.getTempCByIndex(0));  //Wyswietlenie informacji
-50	
-51	
-52		analogWrite(11, jasnosc); //Generuj sygna� PWM o zadanym wype�nieniu   
-53		zmianaJasnosciNaPrzycisku();
-54		mojLcdTemper();
-55		//mojLcdJasn();
+47		analogWrite(11, jasnosc); //Generuj sygna� PWM o zadanym wype�nieniu   
+48		zmianaJasnosciNaPrzycisku();
+49		mojLcdTemper();
+50		mojLcdCounter();
+51		
+52	
+53		if (endEepromSaving == false) {
+54			zapiszTempDoEEPROM();
+55		}
 </Source>
         <MessageVariables>
           <MessageVariable Name="millis()" Index="1" />

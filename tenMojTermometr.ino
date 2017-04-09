@@ -141,11 +141,12 @@ void zmianaJasnosciNaPrzycisku() {
 
 void zapiszTempDoEEPROM() {
 	int temp;
-	int Y = 1020;
+	int Y = 1021;
+	float temperatura;
 	if (licznikZapisan<Y) {
-		if (seconds % 300 == 0 ) {
+		if (seconds % 85 == 0 ) {
 			sensors.requestTemperatures(); //Pobranie temperatury czujnika
-			float temperatura = sensors.getTempCByIndex(0);
+			temperatura = sensors.getTempCByIndex(0);
 			EEPROM.put(licznikZapisan, changeTempToByte(temperatura));
 
 			licznikZapisan++;
@@ -159,9 +160,9 @@ void zapiszTempDoEEPROM() {
 
 		}
 		
-		if (seconds % 300 == 1 && wewLicznik!=(seconds-1)) {//to kurewstwo wyzej czasem nie lapie, dlatego trzeba sprawdzic jedna liczbe dalej
+		if (seconds % 85 == 1 && wewLicznik!=(seconds-1)) {//to kurewstwo wyzej czasem nie lapie, dlatego trzeba sprawdzic jedna liczbe dalej
 			sensors.requestTemperatures(); //Pobranie temperatury czujnika
-			float temperatura = sensors.getTempCByIndex(0);
+			temperatura = sensors.getTempCByIndex(0);
 			EEPROM.put(licznikZapisan, changeTempToByte(temperatura));
 			licznikZapisan++;
 			Serial.print(licznikZapisan);
@@ -174,7 +175,9 @@ void zapiszTempDoEEPROM() {
 		
 	}
 	else {
-
+		EEPROM.put(1021, hours);
+		EEPROM.put(1022, minutes%60);
+		EEPROM.put(1023, seconds%60);
 		endEepromSaving = true;	
 	}
 }
@@ -191,6 +194,6 @@ void EEPROMtest() {
 }
 
 byte changeTempToByte(float temp) {
-	return ((byte)(roundf(temp * 10)-100)); //bierzemy np 37.78 -> robimy z tego 378, odejmujemy 100 i mamy bajta (-100 zeby temp zawsze sie miesila w przedziale ktory chce, chyba ze temp w pokoju przekroczu 35.5 stopni iksde)
+	return ((byte)(roundf(temp * 10)-100)); //bierzemy np 37.78 -> robimy z tego 378, odejmujemy 100 i mamy bajta (-100 zeby temp zawsze sie miescila w przedziale ktory chce, chyba ze temp w pokoju przekroczu 35.5 stopni iksde)
 }
 
